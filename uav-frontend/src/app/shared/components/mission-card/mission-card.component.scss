@@ -1,0 +1,46 @@
+
+
+.mission-card {
+  padding: 22px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  transition: 0.2s ease;
+}
+
+.mission-card:hover {
+  transform: translateY(-2px);
+  border-color: #cbd5e1;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08);
+}
+
+.mission-card h3 {
+  margin: 0 0 18px;
+  color: #0f172a;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.mission-card p {
+  margin: 8px 0;
+  color: #64748b;
+  font-size: 14px;
+}
+
+.mission-card a {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 8px 13px;
+
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+
+  color: #334155;
+  font-size: 13px;
+  text-decoration: none;
+}
+
+.mission-card a:hover {
+  background: #f1f5f9;
+}

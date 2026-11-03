@@ -1,0 +1,13 @@
+
+<section class="drone-page">
+  <div class="drone-header">
+    <h1>Drones</h1>
+    <p>Consulta el estado y el modo de vuelo de tus drones.</p>
+  </div>
+
+  <div class="drone-list">
+    @for (drone of drones; track drone.id) {
+      <app-drone-card [drone]="drone"></app-drone-card>
+    }
+  </div>
+</section>

@@ -1,0 +1,47 @@
+<a routerLink="/mission">← Volver a Misiones</a>
+
+@if (mission) {
+
+<h1>{{ mission.nombre }}</h1>
+
+<p>Estado: {{ mission.estado }}</p>
+<p>Destino: {{ mission.destino }}</p>
+
+<hr>
+
+<h2>Waypoints</h2>
+
+@if (waypoints.length > 0) {
+
+@for (waypoint of waypoints; track waypoint.id) {
+<app-waypoint-card [waypoint]="waypoint">
+</app-waypoint-card>
+}
+
+} @else {
+
+<p>Esta misión no tiene waypoints.</p>
+
+}
+
+<a [routerLink]="['/mission', mission.id, 'waypoint', 'create']">
+  Añadir waypoint
+</a>
+
+<hr>
+
+<h2>Mapa de la misión</h2>
+
+<div class="mission-controls">
+  <button (click)="startMission()">▶ Iniciar</button>
+  <button (click)="pauseMission()">⏸ Pausar</button>
+  <button (click)="stopMission()">⏹ Detener</button>
+  <button (click)="restartMission()">↺ Reiniciar</button>
+</div>
+<app-telemetry-card [telemetry]="telemetry">
+</app-telemetry-card>
+
+<app-mission-map [waypoints]="waypoints" [telemetry]="telemetry">
+</app-mission-map>
+
+}

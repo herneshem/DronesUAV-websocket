@@ -1,0 +1,83 @@
+<div class="mission-form-container">
+
+  <h2>Crear misión</h2>
+
+  <form (ngSubmit)="createMission()">
+
+    <div class="form-group">
+      <label for="nombre">Nombre</label>
+      <input
+        id="nombre"
+        type="text"
+        [(ngModel)]="mission.nombre"
+        name="nombre"
+      >
+    </div>
+
+    <div class="form-group">
+      <label for="estado">Estado</label>
+      <input
+        id="estado"
+        type="text"
+        [(ngModel)]="mission.estado"
+        name="estado"
+      >
+    </div>
+
+      <!-- SELECCIONAR DRONE -->
+
+  <div class="form-group">
+    <label for="drone">Drone</label>
+
+    <select
+      id="drone"
+      [(ngModel)]="mission.drone"
+      name="drone"
+    >
+
+      @for (drone of drones; track drone.id) {
+        <option [ngValue]="drone">
+          {{ drone.nombre }}
+        </option>
+      }
+<p>Número de drones: {{ drones.length }}</p>
+    </select>
+  </div>
+
+    <div class="form-group">
+      <label for="destino">Destino</label>
+      <input
+        id="destino"
+        type="text"
+        [(ngModel)]="mission.destino"
+        name="destino"
+      >
+    </div>
+
+    <div class="form-group">
+      <label for="fechaInicio">Fecha de inicio</label>
+      <input
+        id="fechaInicio"
+        type="date"
+        [(ngModel)]="mission.fechaInicio"
+        name="fechaInicio"
+      >
+    </div>
+
+    <div class="form-group">
+      <label for="fechaFin">Fecha de fin</label>
+      <input
+        id="fechaFin"
+        type="date"
+        [(ngModel)]="mission.fechaFin"
+        name="fechaFin"
+      >
+    </div>
+
+    <button type="submit">
+      Crear misión
+    </button>
+
+  </form>
+
+</div>

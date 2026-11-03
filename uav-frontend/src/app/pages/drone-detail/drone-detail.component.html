@@ -1,0 +1,23 @@
+
+<a routerLink="/drone">← Volver a Drones</a>
+
+<h3>Drone Details</h3>
+
+<p>ID: {{ drone?.id }}</p>
+<p>Nombre: {{ drone?.nombre }}</p>
+<p>Estado: {{ drone?.estado }}</p>
+
+
+<h3>Telemetry</h3>
+@if(telemetry) {
+ <app-telemetry-card [telemetry]="telemetry"></app-telemetry-card>
+
+}
+
+<h3>Misiones</h3>
+@for (mission of missions; track mission.id) {
+  <app-mission-card [mission]="mission"></app-mission-card>
+}
+
+
+

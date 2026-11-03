@@ -1,0 +1,11 @@
+<div class="mission-card">
+  <h3>{{ mission.nombre }}</h3>
+  <p>ID: {{ mission.id }}</p>
+  <p>Estado: {{ mission.estado }}</p>
+
+
+  <a [routerLink]="['/mission', mission.id]">
+    Ver detalles
+  </a>
+</div>
+

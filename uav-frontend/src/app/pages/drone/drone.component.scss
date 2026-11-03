@@ -1,0 +1,77 @@
+.drone-page {
+  min-height: calc(100vh - 80px);
+  padding: 30px;
+  background: #f4f6f8;
+}
+
+/* =========================
+   CABECERA
+   ========================= */
+
+.drone-header {
+  margin-bottom: 25px;
+  padding: 25px 28px;
+
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+}
+
+.drone-header h1 {
+  margin: 0 0 8px;
+
+  color: #0f172a;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.drone-header p {
+  margin: 0;
+
+  color: #64748b;
+  font-size: 14px;
+}
+
+
+/* =========================
+   LISTA DE DRONES
+   ========================= */
+
+.drone-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 18px;
+}
+
+
+/* =========================
+   TARJETA DEL DRONE
+   ========================= */
+
+.drone-list app-drone-card {
+  display: block;
+}
+
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+
+@media (max-width: 700px) {
+
+  .drone-page {
+    padding: 20px;
+  }
+
+  .drone-header {
+    padding: 20px;
+  }
+
+  .drone-header h1 {
+    font-size: 24px;
+  }
+
+  .drone-list {
+    grid-template-columns: 1fr;
+  }
+}

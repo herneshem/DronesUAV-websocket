@@ -1,0 +1,26 @@
+<main class="main">
+  <div class="content">
+
+    <header>
+      <div id="logo">
+        <a href="#">MQ</a>
+      </div>
+      <nav id="menu">
+        <button class="nav-mobile" id="nav-mobile"  (click)="toggleMenu()">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <ul class="nav-menu" [class.open]="menuOpen">
+          <li><a [routerLink]="['/']">Inicio</a></li>
+          <li><a [routerLink]="['/drone']">Drones</a></li>
+          <li><a [routerLink]="['/mission']">Misión</a></li>
+        </ul>
+      </nav>
+    </header>
+
+  </div>
+</main>
+
+
+<router-outlet />

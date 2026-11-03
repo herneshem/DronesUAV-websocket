@@ -1,0 +1,148 @@
+@import 'leaflet/dist/leaflet.css';
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: #1f2937;
+  color: white;
+}
+header #logo a {
+  text-decoration: none;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+header #menu {
+  display: flex;
+  align-items: center;
+}
+header #menu .nav-menu {
+  display: flex;
+  list-style: none;
+  gap: 2rem;
+}
+header #menu .nav-menu li a {
+  text-decoration: none;
+  color: white;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+header #menu .nav-menu li a:hover {
+  color: #60a5fa;
+}
+header #menu .nav-mobile {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 32px;
+  height: 24px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+header #menu .nav-mobile span {
+  display: block;
+  width: 100%;
+  height: 3px;
+  background: white;
+  border-radius: 2px;
+}
+
+@media (max-width: 768px) {
+  header #menu {
+    position: relative;
+  }
+  header #menu .nav-mobile {
+    display: flex;
+  }
+  header #menu .nav-menu {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    width: 200px;
+    background: #1f2937;
+    padding: 1rem;
+    gap: 1rem;
+    border-radius: 8px;
+  }
+  header #menu .nav-menu.open {
+    display: flex;
+  }
+}
+.mission-form-container {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+.mission-form-container h2 {
+  margin-bottom: 30px;
+  text-align: center;
+  font-size: 28px;
+  font-weight: 600;
+}
+.mission-form-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.mission-form-container .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.mission-form-container .form-group label {
+  font-size: 15px;
+  font-weight: 600;
+}
+.mission-form-container .form-group input {
+  width: 100%;
+  padding: 12px 14px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 15px;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.mission-form-container .form-group input:focus {
+  border-color: #333;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.08);
+}
+.mission-form-container button {
+  margin-top: 10px;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 6px;
+  background-color: #222;
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.mission-form-container button:hover {
+  background-color: #444;
+}
+.mission-form-container button:active {
+  transform: translateY(1px);
+}
+
+#map {
+  height: 500px;
+  width: 100%;
+}
+
+.waypoint-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 16px;
+  background-color: #f8f9fa;
+}/*# sourceMappingURL=styles.css.map */

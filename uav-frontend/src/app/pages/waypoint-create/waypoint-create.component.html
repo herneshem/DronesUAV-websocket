@@ -1,0 +1,62 @@
+<h2>Crear waypoint</h2>
+
+<form (ngSubmit)="createWaypoint()">
+
+  <div class="form-group">
+
+    <label for="latitud">
+      Latitud
+    </label>
+
+    <input
+      id="latitud"
+      type="number"
+      step="any"
+      [(ngModel)]="waypoint.latitud"
+      name="latitud"
+      required
+    >
+
+  </div>
+
+
+  <div class="form-group">
+
+    <label for="longitud">
+      Longitud
+    </label>
+
+    <input
+      id="longitud"
+      type="number"
+      step="any"
+      [(ngModel)]="waypoint.longitud"
+      name="longitud"
+      required
+    >
+
+  </div>
+
+
+  <div class="form-group">
+
+    <label for="altitud">
+      Altitud
+    </label>
+
+    <input
+      id="altitud"
+      type="number"
+      [(ngModel)]="waypoint.altitud"
+      name="altitud"
+      required
+    >
+
+  </div>
+
+
+  <button type="submit">
+    Crear waypoint
+  </button>
+
+</form>
