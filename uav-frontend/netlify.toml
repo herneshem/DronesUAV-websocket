@@ -1,0 +1,4 @@
+﻿[build]
+  base = "uav-frontend"
+  command = "npm run build"
+  publish = "dist/uav-frontend/browser"
