@@ -11,6 +11,7 @@ import {
 import * as L from 'leaflet';
 import { Waypoint } from '../../../models/waypoint';
 import { Telemetry } from '../../../models/telemetry';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-mission-map',
@@ -26,14 +27,11 @@ export class MissionMapComponent
 
   private map!: L.Map;
 
-  // Marcadores
-  private droneMarker!: L.CircleMarker;
+  private droneMarker?: L.CircleMarker;
   private simulationMarker?: L.CircleMarker;
 
-  // Capas del mapa
   private waypointLayer = L.layerGroup();
 
-  // Control de simulación
   private currentWaypoint = 0;
   private intervalId: ReturnType<typeof setInterval> | null = null;
   private movementIntervalId: ReturnType<typeof setInterval> | null = null;
@@ -41,7 +39,10 @@ export class MissionMapComponent
   private isRunning = false;
   private isPaused = false;
 
-  // Inicialización del mapa
+  private get isDemo(): boolean {
+    return environment.mode === 'DEMO';
+  }
+
   ngAfterViewInit(): void {
     this.map = L.map('map');
 
@@ -58,7 +59,6 @@ export class MissionMapComponent
     this.addWaypoints();
   }
 
-  // Detectar cambios en los datos recibidos
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['waypoints'] && this.map) {
       this.stopMission();
@@ -70,37 +70,52 @@ export class MissionMapComponent
     }
   }
 
-  // Limpiar intervalos al destruir el componente
   ngOnDestroy(): void {
     this.stopMission();
     this.map?.remove();
   }
 
-  // Actualizar posición real del PX4
+  // Actualizar exclusivamente la posición recibida de PX4.
   private updateDronePosition(): void {
-    if (!this.telemetry || !this.map || !this.droneMarker) {
+    if (this.isDemo || !this.map || !this.telemetry) {
       return;
     }
 
     const lat = this.telemetry.latitud;
     const lng = this.telemetry.longitud;
 
-    this.droneMarker.setLatLng([lat, lng]);
+    if (
+      !Number.isFinite(lat) ||
+      !Number.isFinite(lng) ||
+      lat < -90 || lat > 90 ||
+      lng < -180 || lng > 180
+    ) {
+      return;
+    }
+
+    if (!this.droneMarker) {
+      this.droneMarker = L.circleMarker([lat, lng], {
+        radius: 10,
+        color: 'red',
+        fillColor: 'red',
+        fillOpacity: 1
+      }).addTo(this.map);
+    } else {
+      this.droneMarker.setLatLng([lat, lng]);
+    }
+
     this.map.setView([lat, lng], 16);
   }
 
-  // Añadir waypoints y dibujar ruta
+  // Dibujar waypoints y ruta.
   private addWaypoints(): void {
     this.waypointLayer.clearLayers();
 
-    if (this.droneMarker) {
-      this.droneMarker.remove();
-    }
+    this.droneMarker?.remove();
+    this.droneMarker = undefined;
 
-    if (this.simulationMarker) {
-      this.simulationMarker.remove();
-      this.simulationMarker = undefined;
-    }
+    this.simulationMarker?.remove();
+    this.simulationMarker = undefined;
 
     if (this.waypoints.length === 0) {
       return;
@@ -135,26 +150,30 @@ export class MissionMapComponent
       padding: [50, 50]
     });
 
-    const firstWaypoint = this.waypoints[0];
+    // Solo DEMO utiliza el marcador de movimiento simulado.
+    if (this.isDemo) {
+      const first = this.waypoints[0];
 
-    // Marcador rojo: posición real del PX4
-    this.droneMarker = L.circleMarker(
-      [firstWaypoint.latitud, firstWaypoint.longitud],
-      {
-        radius: 10,
-        color: 'red',
-        fillColor: 'red',
-        fillOpacity: 1
-      }
-    ).addTo(this.map);
-
-    this.updateDronePosition();
+      this.simulationMarker = L.circleMarker(
+        [first.latitud, first.longitud],
+        {
+          radius: 8,
+          color: 'green',
+          fillColor: 'green',
+          fillOpacity: 1
+        }
+      ).addTo(this.map);
+    } else {
+      this.updateDronePosition();
+    }
   }
 
-  // Mover el marcador verde entre dos waypoints
+  // Movimiento visual exclusivo de DEMO.
   private moveDrone(from: Waypoint, to: Waypoint): void {
     let progress = 0;
     const steps = 30;
+
+    this.clearMovementInterval();
 
     this.movementIntervalId = setInterval(() => {
       if (!this.isRunning || this.isPaused) {
@@ -177,11 +196,9 @@ export class MissionMapComponent
       if (progress >= steps) {
         this.clearMovementInterval();
       }
-
     }, 60);
   }
 
-  // Limpiar intervalo de movimiento
   private clearMovementInterval(): void {
     if (this.movementIntervalId !== null) {
       clearInterval(this.movementIntervalId);
@@ -189,8 +206,13 @@ export class MissionMapComponent
     }
   }
 
-  // Iniciar simulación
   private startSimulation(): void {
+    this.clearMovementInterval();
+
+    if (this.intervalId !== null) {
+      clearInterval(this.intervalId);
+    }
+
     this.intervalId = setInterval(() => {
       if (!this.isRunning || this.isPaused) {
         return;
@@ -207,14 +229,17 @@ export class MissionMapComponent
       const to = this.waypoints[this.currentWaypoint];
 
       this.moveDrone(from, to);
-
     }, 3000);
   }
 
-  // Botones de control de la simulación
-
+  // Controles de simulación.
   public startMission(): void {
-    if (this.isRunning || this.waypoints.length === 0) {
+    if (
+      !this.isDemo ||
+      this.isRunning ||
+      this.waypoints.length === 0 ||
+      !this.map
+    ) {
       return;
     }
 
@@ -240,11 +265,13 @@ export class MissionMapComponent
       ]);
     }
 
-    this.startSimulation();
+    if (this.waypoints.length > 1) {
+      this.startSimulation();
+    }
   }
 
   public pauseMission(): void {
-    if (!this.isRunning) {
+    if (!this.isDemo || !this.isRunning) {
       return;
     }
 
@@ -276,12 +303,11 @@ export class MissionMapComponent
   }
 
   public restartMission(): void {
-    this.stopMission();
-
-    if (this.waypoints.length === 0) {
+    if (!this.isDemo) {
       return;
     }
 
+    this.stopMission();
     this.startMission();
   }
 }

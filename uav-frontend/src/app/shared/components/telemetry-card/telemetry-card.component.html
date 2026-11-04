@@ -1,9 +1,16 @@
+
 <div class="telemetry-card">
-  <h3>Telemetry Data</h3>
-  <p>Batería: {{ telemetry.bateria }}%</p>
-  <p>Altitud: {{ telemetry.altitud }}m</p>
-  <p>Velocidad: {{ telemetry.velocidad }}km/h</p>
-  <p>Latitud: {{ telemetry.latitud }}</p>
-  <p>Longitud: {{ telemetry.longitud }}</p>
-  <p>Estado: {{ telemetry.estado }}</p>
+  <h3>Telemetría</h3>
+
+  @if (telemetry) {
+    <p>Batería: {{ telemetry.bateria }}%</p>
+    <p>Altitud: {{ telemetry.altitud }} m</p>
+    <p>Velocidad: {{ telemetry.velocidad }} km/h</p>
+    <p>Latitud: {{ telemetry.latitud }}</p>
+    <p>Longitud: {{ telemetry.longitud }}</p>
+    <p>Estado: {{ telemetry.estado }}</p>
+  } @else {
+    <p>Telemetría real no disponible.</p>
+    <p>La conexión con PX4 no está activa en esta demostración.</p>
+  }
 </div>

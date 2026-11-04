@@ -1,22 +1,24 @@
-package com.uav.drone.entity;
 
+package com.uav.drone.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.AnyDiscriminatorImplicitValues;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
 @Entity
 @Table(name = "waypoints")
 @Getter
 @Setter
-
+@NoArgsConstructor
+@AllArgsConstructor
 public class Waypoint {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY )
-
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private Double latitud;
     private Double longitud;
     private Integer altitud;

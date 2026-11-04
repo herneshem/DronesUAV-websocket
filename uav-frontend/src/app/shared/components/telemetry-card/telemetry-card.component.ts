@@ -1,5 +1,6 @@
+
 import { Component, Input } from '@angular/core';
-import {Telemetry  } from '../../../models/telemetry';
+import { Telemetry } from '../../../models/telemetry';
 
 @Component({
   selector: 'app-telemetry-card',
@@ -8,6 +9,5 @@ import {Telemetry  } from '../../../models/telemetry';
   styles: ``
 })
 export class TelemetryCardComponent {
-
- @Input() telemetry!: Telemetry;
+  @Input() telemetry: Telemetry | null = null;
 }

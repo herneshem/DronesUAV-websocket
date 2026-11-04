@@ -1,5 +1,5 @@
-package com.uav.drone.entity;
 
+package com.uav.drone.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -17,16 +17,19 @@ public class Mission {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     private Long id;
+
     private String nombre;
     private String estado;
     private String destino;
+
+    @Column(name = "fecha_inicio")
     private String fechaInicio;
+
+    @Column(name = "fecha_fin")
     private String fechaFin;
 
     @ManyToOne
     @JoinColumn(name = "drone_id")
     private Drone drone;
-
 }

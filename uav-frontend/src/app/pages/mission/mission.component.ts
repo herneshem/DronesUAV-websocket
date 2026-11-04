@@ -21,6 +21,7 @@ export class MissionComponent implements OnInit {
 
     this.missionService.getMissions().subscribe({
       next: (data) => {
+        console.log('Misiones recibidas:', data);
         this.missions = data;
       },
       error: (error) => {
@@ -29,7 +30,7 @@ export class MissionComponent implements OnInit {
     });
 
 
-    
+
     // PARA PRUEBAS ANTES DE CONECTAR CON EL BACKEND / EL CONSTRUCTOR ESTABA VACIO
 
     // this.missions = this.missionService.getMissions(); // Replace 1 with the actual drone ID you want to fetch the mission for.

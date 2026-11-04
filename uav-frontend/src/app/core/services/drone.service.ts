@@ -1,48 +1,61 @@
-import { Injectable } from '@angular/core';
-import { Drone } from '../../models/drone';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
 
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable, of, throwError } from 'rxjs';
+
+import { Drone } from '../../models/drone';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DroneService {
 
-private apiUrl = 'http://localhost:8080/api/drones'; // Replace with your backend API URL
+  private apiUrl = `${environment.apiUrl}/drones`;
 
-  constructor(private http: HttpClient) { }
+  // Datos de ejemplo exclusivos del modo DEMO
+  private demoDrones: Drone[] = [
+    {
+      id: 1,
+      nombre: 'UAV Explorer 01',
+      estado: 'Activo',
+      modoVuelo: 'Automático'
+    },
+    {
+      id: 2,
+      nombre: 'UAV Surveyor 02',
+      estado: 'En espera',
+      modoVuelo: 'Manual'
+    },
+    {
+      id: 3,
+      nombre: 'UAV Guardian 03',
+      estado: 'Inactivo',
+      modoVuelo: 'Automático'
+    }
+  ];
+
+  constructor(private http: HttpClient) {}
 
   getDrones(): Observable<Drone[]> {
+
+    if (environment.mode === 'DEMO') {
+      return of(this.demoDrones);
+    }
+
     return this.http.get<Drone[]>(this.apiUrl);
   }
 
   getDrone(id: number): Observable<Drone> {
-    
+
+    if (environment.mode === 'DEMO') {
+      const drone = this.demoDrones.find(d => d.id === id);
+
+      return drone
+        ? of(drone)
+        : throwError(() => new Error('Drone no encontrado'));
+    }
+
     return this.http.get<Drone>(`${this.apiUrl}/${id}`);
   }
-
-
-
-
-
-
-
-
-
-//PRUEBAS ANTES DE CONECTAR CON EL BACKEND / EL CONSTRUCTOR ESTABA VACIO
-
-  // getDrones(): Drone[] {
-  //   // Placeholder implementation - replace with actual drone data retrieval logic
-  //   return [
-  //     { id: 1, nombre: 'Drone 1', estado: 'Activo', modoVuelo: 'Manual' },
-  //     { id: 2, nombre: 'Drone 2', estado: 'Inactivo', modoVuelo: 'Automático' },
-  //     { id: 3, nombre: 'Drone 3', estado: 'Activo', modoVuelo: 'Manual' }
-  //   ];
-  // };
-
-  // getDrone(id: number): Drone | undefined {
-  //   const drones = this.getDrones();
-  //   return drones.find(drone => drone.id === id);
-  // }
 }

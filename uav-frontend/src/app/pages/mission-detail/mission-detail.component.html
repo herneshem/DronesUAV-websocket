@@ -1,47 +1,59 @@
-<a routerLink="/mission">← Volver a Misiones</a>
 
-@if (mission) {
+<section class="mission-detail">
 
-<h1>{{ mission.nombre }}</h1>
+  @if (mission) {
+    <header class="mission-header">
+      <h1>{{ mission.nombre }}</h1>
+      <p>Estado: {{ mission.estado }}</p>
+      <p>Destino: {{ mission.destino }}</p>
+      <p>Fecha de inicio: {{ mission.fechaInicio }}</p>
+      <p>Fecha de finalización: {{ mission.fechaFin }}</p>
 
-<p>Estado: {{ mission.estado }}</p>
-<p>Destino: {{ mission.destino }}</p>
+      @if (mission.drone) {
+        <p>Dron asignado: {{ mission.drone.nombre }}</p>
+      }
+    </header>
+  } @else {
+    <p>Cargando misión...</p>
+  }
 
-<hr>
+  @if (isDemo) {
+    <p class="demo-notice">
+      DEMO — Datos simulados. No existe conexión con un dron real.
+    </p>
 
-<h2>Waypoints</h2>
+    <div class="mission-controls">
+      <button type="button" (click)="startMission()">Iniciar simulación</button>
+      <button type="button" (click)="pauseMission()">Pausar</button>
+      <button type="button" (click)="stopMission()">Detener</button>
+      <button type="button" (click)="restartMission()">Reiniciar</button>
+    </div>
+  }
 
-@if (waypoints.length > 0) {
+  <section class="mission-map-section">
+    <h2>Mapa de misión</h2>
 
-@for (waypoint of waypoints; track waypoint.id) {
-<app-waypoint-card [waypoint]="waypoint">
-</app-waypoint-card>
-}
+    <app-mission-map
+      [waypoints]="waypoints"
+      [telemetry]="telemetry">
+    </app-mission-map>
+  </section>
 
-} @else {
+  <section class="waypoints-section">
+    <h2>Waypoints</h2>
 
-<p>Esta misión no tiene waypoints.</p>
+    @for (waypoint of waypoints; track $index) {
+      <app-waypoint-card [waypoint]="waypoint"></app-waypoint-card>
+    } @empty {
+      <p>No hay waypoints disponibles.</p>
+    }
+  </section>
 
-}
+  @if (!isDemo) {
+    <app-telemetry-card [telemetry]="telemetry">
+    </app-telemetry-card>
+  }
 
-<a [routerLink]="['/mission', mission.id, 'waypoint', 'create']">
-  Añadir waypoint
-</a>
+  <a routerLink="/mission">Volver a misiones</a>
 
-<hr>
-
-<h2>Mapa de la misión</h2>
-
-<div class="mission-controls">
-  <button (click)="startMission()">▶ Iniciar</button>
-  <button (click)="pauseMission()">⏸ Pausar</button>
-  <button (click)="stopMission()">⏹ Detener</button>
-  <button (click)="restartMission()">↺ Reiniciar</button>
-</div>
-<app-telemetry-card [telemetry]="telemetry">
-</app-telemetry-card>
-
-<app-mission-map [waypoints]="waypoints" [telemetry]="telemetry">
-</app-mission-map>
-
-}
+</section>

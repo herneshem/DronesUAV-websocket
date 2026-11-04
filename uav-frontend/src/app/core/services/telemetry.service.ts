@@ -3,14 +3,16 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { Client, IMessage } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 import { BehaviorSubject } from 'rxjs';
+
 import { Telemetry } from '../../models/telemetry';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TelemetryService implements OnDestroy {
 
-  private client: Client;
+  private client?: Client;
 
   private telemetrySubject =
     new BehaviorSubject<Telemetry | null>(null);
@@ -18,21 +20,29 @@ export class TelemetryService implements OnDestroy {
   telemetry$ = this.telemetrySubject.asObservable();
 
   constructor() {
-    console.log('TELEMETRY SERVICE INICIADO');
+
+    // En DEMO no se establece ninguna conexión ni se genera telemetría.
+    if (environment.mode === 'DEMO') {
+      console.log('MODO DEMO: telemetría real no disponible');
+      return;
+    }
+
     this.client = new Client({
       webSocketFactory: () =>
-        new SockJS('http://localhost:8080/ws'),
+        new SockJS(environment.websocketUrl),
 
       reconnectDelay: 5000,
 
       onConnect: () => {
         console.log('WEBSOCKET CONECTADO');
 
-        this.client.subscribe('/topic/telemetry', (message: IMessage) => {
-          console.log('MENSAJE STOMP:', message.body);
-
-          const telemetry: Telemetry = JSON.parse(message.body);
-          this.telemetrySubject.next(telemetry);
+        this.client?.subscribe('/topic/telemetry', (message: IMessage) => {
+          try {
+            const telemetry: Telemetry = JSON.parse(message.body);
+            this.telemetrySubject.next(telemetry);
+          } catch (error) {
+            console.error('Error al interpretar la telemetría:', error);
+          }
         });
       },
 
@@ -49,7 +59,6 @@ export class TelemetryService implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.client.deactivate();
+    this.client?.deactivate();
   }
-
 }

@@ -1,6 +1,8 @@
+
 import { Component, OnInit } from '@angular/core';
-import { Waypoint } from '../../models/waypoint';
 import { ActivatedRoute } from '@angular/router';
+
+import { Waypoint } from '../../models/waypoint';
 import { WaypointService } from '../../core/services/waypoint.service';
 import { WaypointCardComponent } from '../../shared/components/waypoint-card/waypoint-card.component';
 
@@ -20,12 +22,14 @@ export class WaypointComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    const missionId = Number(this.route.snapshot.paramMap.get('id'));
 
-    const id = Number(
-      this.route.snapshot.paramMap.get('id')
-    );
+    if (!missionId) {
+      console.error('ID de misión no válido');
+      return;
+    }
 
-    this.waypointService.getWaypointsByMissionId(id).subscribe({
+    this.waypointService.getWaypointsByMissionId(missionId).subscribe({
       next: (waypoints) => {
         this.waypoints = waypoints;
       },
@@ -33,6 +37,5 @@ export class WaypointComponent implements OnInit {
         console.error('Error al obtener los waypoints:', error);
       }
     });
-
   }
 }

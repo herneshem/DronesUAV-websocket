@@ -1,98 +1,117 @@
-import { Component, OnInit } from '@angular/core';
+
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  DestroyRef,
+  inject
+} from '@angular/core';
+
+import { ActivatedRoute, RouterLink } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
 import { Mission } from '../../models/mission';
 import { Waypoint } from '../../models/waypoint';
+import { Telemetry } from '../../models/telemetry';
+
 import { MissionService } from '../../core/services/mission.service';
 import { WaypointService } from '../../core/services/waypoint.service';
-import { WaypointCardComponent } from '../../shared/components/waypoint-card/waypoint-card.component';
-import { ActivatedRoute, RouterLink } from '@angular/router';
-import { MissionMapComponent } from "../../shared/components/mission-map/mission-map.component";
-import { TelemetryCardComponent } from "../../shared/components/telemetry-card/telemetry-card.component";
-import { Telemetry } from '../../models/telemetry';
-import { ViewChild } from '@angular/core';
 import { TelemetryService } from '../../core/services/telemetry.service';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { DestroyRef, inject } from '@angular/core';
+
+import { MissionMapComponent } from '../../shared/components/mission-map/mission-map.component';
+import { TelemetryCardComponent } from '../../shared/components/telemetry-card/telemetry-card.component';
+import { WaypointCardComponent } from '../../shared/components/waypoint-card/waypoint-card.component';
+
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-mission-detail',
-  imports: [WaypointCardComponent, RouterLink, MissionMapComponent, TelemetryCardComponent],
+  imports: [
+    WaypointCardComponent,
+    RouterLink,
+    MissionMapComponent,
+    TelemetryCardComponent
+  ],
   templateUrl: './mission-detail.component.html',
   styles: ``
 })
 export class MissionDetailComponent implements OnInit {
 
   private destroyRef = inject(DestroyRef);
-  mission?: Mission
 
-  waypoints: Waypoint[] = []
+  readonly isDemo = environment.mode === 'DEMO';
 
-telemetry: Telemetry = {
-  bateria: 0,
-  altitud: 0,
-  velocidad: 0,
-  latitud: 0,
-  longitud: 0,
-  estado: 'Esperando telemetría'
-};
-  constructor(private missionService: MissionService,
+  mission?: Mission;
+  waypoints: Waypoint[] = [];
+  telemetry: Telemetry | null = null;
+
+  @ViewChild(MissionMapComponent)
+  missionMap?: MissionMapComponent;
+
+  constructor(
+    private missionService: MissionService,
     private waypointService: WaypointService,
     private route: ActivatedRoute,
-    private telemetryService: TelemetryService) {
-    console.log('MISSION DETAIL CARGADO');
-  }
+    private telemetryService: TelemetryService
+  ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
+    const missionId = Number(this.route.snapshot.paramMap.get('id'));
 
-    const missionId = Number(this.route.snapshot.paramMap.get('id')); // Get the mission ID from the route parameters
-    console.log('ID DE MISIÓN:', missionId);
+    if (!Number.isInteger(missionId) || missionId < 1) {
+      return;
+    }
 
-    if (missionId) {
-      this.missionService.getMission(missionId).subscribe({
-        next: (mission) => {
+    this.missionService.getMission(missionId)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: mission => {
           this.mission = mission;
-          console.log('MISIÓN:', this.mission);
+        },
+        error: error => {
+          console.error('Error al obtener la misión:', error);
         }
       });
 
-      this.waypointService.getWaypointsByMissionId(missionId).subscribe({
-        next: (waypoints) => {
+    this.waypointService.getWaypointsByMissionId(missionId)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: waypoints => {
           this.waypoints = waypoints;
-          console.log('WAYPOINTS:', this.waypoints);
         },
-        error: (error) => {
+        error: error => {
           console.error('Error al obtener los waypoints:', error);
         }
       });
-    }
 
     this.telemetryService.telemetry$
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(telemetry => {
-        if (telemetry) {
-          this.telemetry = telemetry;
-          console.log('TELEMETRÍA PX4:', telemetry);
-        }
+        this.telemetry = telemetry;
       });
-
   }
-  //CON REFERENCIA AL ESTADO DEL DRON
-  @ViewChild(MissionMapComponent)
-  missionMap!: MissionMapComponent;
 
   startMission(): void {
-    this.missionMap.startMission();
+    if (this.isDemo) {
+      this.missionMap?.startMission();
+    }
   }
 
   pauseMission(): void {
-    this.missionMap.pauseMission();
+    if (this.isDemo) {
+      this.missionMap?.pauseMission();
+    }
   }
 
   stopMission(): void {
-    this.missionMap.stopMission();
+    if (this.isDemo) {
+      this.missionMap?.stopMission();
+    }
   }
 
   restartMission(): void {
-    this.missionMap.restartMission();
+    if (this.isDemo) {
+      this.missionMap?.restartMission();
+    }
   }
-
 }

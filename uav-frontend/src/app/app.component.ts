@@ -1,6 +1,7 @@
+
 import { Component } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
-
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -9,11 +10,12 @@ import { RouterLink, RouterOutlet } from '@angular/router';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'uav-frontend';
 
- menuOpen = false;
+  readonly isDemo = environment.mode === 'DEMO';
 
-toggleMenu() {
-  this.menuOpen = !this.menuOpen;
-}
+  menuOpen = false;
+
+  toggleMenu() {
+    this.menuOpen = !this.menuOpen;
+  }
 }
