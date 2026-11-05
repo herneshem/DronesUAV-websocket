@@ -1,0 +1,207 @@
+.mission-detail {
+  display: grid;
+  gap: 22px;
+  width: min(100% - 40px, 1180px);
+  margin: 30px auto 60px;
+  color: #fff;
+}
+
+.mission-detail h1,
+.mission-detail h2,
+.mission-detail p,
+.mission-detail a {
+  color: #fff;
+}
+
+.mission-detail > p {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.mission-detail .mission-header {
+  padding: 8px 0 18px;
+  border: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+.mission-header h1 {
+  margin: 0 0 20px;
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  font-weight: 750;
+  letter-spacing: -0.035em;
+}
+
+.mission-header p {
+  display: inline-flex;
+  align-items: center;
+  min-height: 42px;
+  margin: 0 8px 9px 0;
+  padding: 9px 13px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+  background: rgba(15, 20, 54, 0.48);
+  font-size: 0.93rem;
+  line-height: 1.4;
+}
+
+.mission-map-section,
+.waypoints-section,
+.mission-detail app-telemetry-card {
+  display: block;
+  padding: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 16px;
+  background: rgba(15, 20, 54, 0.72);
+  box-shadow: 0 14px 36px rgba(2, 4, 24, 0.2);
+}
+
+.mission-map-section h2,
+.waypoints-section h2 {
+  margin: 0 0 16px;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.mission-map-section app-mission-map {
+  display: block;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 12px;
+}
+
+.waypoints-section > p {
+  margin: 0;
+}
+
+.waypoints-section app-waypoint-card {
+  display: block;
+  margin-top: 12px;
+  padding: 2px;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+}
+
+.mission-detail app-telemetry-card {
+  color: #fff;
+}
+
+.mission-detail > a {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  min-height: 42px;
+  padding: 10px 15px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  font-weight: 650;
+  text-decoration: none;
+  transition: background 160ms ease, border-color 160ms ease;
+}
+
+.mission-detail > a:hover {
+  border-color: rgba(255, 255, 255, 0.42);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.mission-demo-panel {
+  display: grid;
+  gap: 16px;
+  padding: 20px;
+  border: 1px solid rgba(168, 156, 255, 0.2);
+  border-radius: 16px;
+  background:
+    linear-gradient(115deg, rgba(62, 49, 135, 0.24), rgba(15, 20, 54, 0.72)),
+    rgba(15, 20, 54, 0.82);
+  box-shadow: 0 16px 40px rgba(2, 4, 24, 0.18);
+}
+
+.demo-notice {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  margin: 0;
+  color: #fff;
+  font-size: 0.94rem;
+  font-weight: 550;
+}
+
+.demo-indicator {
+  width: 9px;
+  height: 9px;
+  flex: 0 0 9px;
+  border-radius: 50%;
+  background: #f5c451;
+  box-shadow: 0 0 0 4px rgba(245, 196, 81, 0.13);
+}
+
+.mission-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.mission-controls button {
+  min-width: 128px;
+  box-shadow: none;
+}
+
+.mission-controls .control-pause,
+.mission-controls .control-restart {
+  border-color: rgba(190, 197, 255, 0.22);
+  background: rgba(168, 156, 255, 0.1);
+}
+
+.mission-controls .control-pause:hover,
+.mission-controls .control-restart:hover {
+  background: rgba(168, 156, 255, 0.2);
+}
+
+.mission-controls .control-stop {
+  border-color: rgba(255, 145, 161, 0.28);
+  background: rgba(157, 48, 77, 0.24);
+}
+
+.mission-controls .control-stop:hover {
+  background: rgba(180, 53, 83, 0.4);
+}
+
+@media (max-width: 520px) {
+  .mission-detail {
+    width: min(100% - 28px, 1180px);
+    margin-top: 20px;
+    gap: 16px;
+  }
+
+  .mission-map-section,
+  .waypoints-section,
+  .mission-detail app-telemetry-card {
+    padding: 17px;
+  }
+
+  .mission-header p {
+    display: flex;
+    width: 100%;
+    margin-right: 0;
+  }
+
+  .mission-demo-panel {
+    padding: 17px;
+  }
+
+  .mission-controls {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .mission-controls button {
+    min-width: 0;
+    padding-inline: 10px;
+  }
+}

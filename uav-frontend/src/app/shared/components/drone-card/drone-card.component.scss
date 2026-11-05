@@ -1,10 +1,9 @@
 
 .drone-card {
   padding: 22px;
-
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 10px;
+  background: rgba(15, 20, 54, 0.82);
+  border: 1px solid rgba(190, 197, 255, 0.14);
+  border-radius: 18px;
 
   transition:
     transform 0.2s ease,
@@ -14,10 +13,8 @@
 
 .drone-card:hover {
   transform: translateY(-2px);
-
-  border-color: #cbd5e1;
-
-  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08);
+  border-color: rgba(168, 156, 255, 0.42);
+  box-shadow: 0 20px 46px rgba(2, 4, 24, 0.3);
 }
 
 
@@ -28,9 +25,9 @@
 .drone-card h3 {
   margin: 0 0 18px;
 
-  color: #0f172a;
+  color: #fff;
   font-size: 18px;
-  font-weight: 600;
+  font-weight: 680;
 }
 
 
@@ -41,12 +38,12 @@
 .drone-card p {
   margin: 8px 0;
 
-  color: #64748b;
+  color: #fff;
   font-size: 14px;
 }
 
 .drone-card p strong {
-  color: #1e293b;
+  color: #fff;
 }
 
 
@@ -60,11 +57,11 @@
   margin-top: 15px;
   padding: 8px 13px;
 
-  background: #f8fafc;
-  border: 1px solid #cbd5e1;
-  border-radius: 6px;
+  background: rgba(168, 156, 255, 0.09);
+  border: 1px solid rgba(168, 156, 255, 0.24);
+  border-radius: 10px;
 
-  color: #334155;
+  color: #fff;
   font-size: 13px;
   font-weight: 500;
   text-decoration: none;
@@ -73,7 +70,8 @@
 }
 
 .drone-card a:hover {
-  background: #f1f5f9;
+  background: rgba(168, 156, 255, 0.18);
+  color: #fff;
 }
 
 

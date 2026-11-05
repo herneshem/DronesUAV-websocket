@@ -33,7 +33,7 @@ import { environment } from '../../../environments/environment';
     TelemetryCardComponent
   ],
   templateUrl: './mission-detail.component.html',
-  styles: ``
+  styleUrls: ['./mission-detail.component.scss']
 })
 export class MissionDetailComponent implements OnInit {
 
