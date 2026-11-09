@@ -16,10 +16,10 @@ export class WaypointService {
   private demoWaypoints: Waypoint[] = [
     { id: 1, latitud: 40.4168, longitud: -3.7038, altitud: 100, orden: 1, mission: { id: 1, nombre: 'Inspección Madrid', estado: 'Planificada' } as any },
     { id: 2, latitud: 40.4180, longitud: -3.7000, altitud: 120, orden: 2, mission: { id: 1, nombre: 'Inspección Madrid', estado: 'Planificada' } as any },
-    { id: 3, latitud: 40.4200, longitud: -3.6970, altitud: 110, orden: 3, mission: { id: 1, nombre: 'Inspección Madrid', estado: 'Planificada' } as any },
+    { id: 3, latitud: 40.4350, longitud: -3.6840, altitud: 110, orden: 3, mission: { id: 1, nombre: 'Inspección Madrid', estado: 'Planificada' } as any },
     { id: 4, latitud: 39.8628, longitud: -4.0273, altitud: 100, orden: 1, mission: { id: 2, nombre: 'Cartografía Toledo', estado: 'Planificada' } as any },
     { id: 5, latitud: 39.8650, longitud: -4.0240, altitud: 120, orden: 2, mission: { id: 2, nombre: 'Cartografía Toledo', estado: 'Planificada' } as any },
-    { id: 6, latitud: 39.8680, longitud: -4.0210, altitud: 110, orden: 3, mission: { id: 2, nombre: 'Cartografía Toledo', estado: 'Planificada' } as any }
+    { id: 6, latitud: 39.8800, longitud: -4.0000, altitud: 110, orden: 3, mission: { id: 2, nombre: 'Cartografía Toledo', estado: 'Planificada' } as any }
   ];
 
   constructor(private http: HttpClient) {}
