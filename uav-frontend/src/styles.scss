@@ -120,20 +120,12 @@ header:not(.mission-header) {
   }
 
   header #menu .nav-menu {
-    display: none;
-
-    flex-direction: column;
-
     position: absolute;
-    top: calc(100% + 10px);
     right: 0;
-
     width: 200px;
-
     background: #1f2937;
     padding: 1rem;
     gap: 1rem;
-
     border-radius: 8px;
   }
 
